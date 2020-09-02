@@ -1,4 +1,5 @@
 # weathercheck-kotlin
 
 Using API `https://www.metaweather.com/api/`
-Demo project setup with cucumber with kotlin & basic reporting
+
+Demo project setup with Cucumber with Kotlin & basic reporting.
