@@ -107,7 +107,7 @@ allure {
     version = allureVersion
 //    aspectjweaver = false
     resultsDir = file(System.getProperty("allure.results.directory", "$projectDir/allure-results"))
-    reportDir = file("$projectDir/allure-report")
+    reportDir = file("$projectDir/build/allure-report")
     useJUnit5 {
         version = allureVersion
     }
