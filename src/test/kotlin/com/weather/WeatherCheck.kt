@@ -34,15 +34,9 @@ class WeatherCheck() : En {
             .get(woeid).thenReturn()
     }
 
-    @Given("^a valid woeid (.*) is retrieved$")
-    fun `a valid woeid is retrieved`(woeid: String){
+    @Given("^a woeid (.*) is retrieved$")
+    fun `a woeid is retrieved`(woeid: String){
         response = getWoeidInformation(woeid)
-        assertThat(
-            "HTTP Status Code Unexpected",
-            response.statusCode,
-            equalTo(HttpStatus.SC_OK)
-        )
-
     }
 
     @When("the API returns successfully")
@@ -54,11 +48,30 @@ class WeatherCheck() : En {
         )
     }
 
+    @When("the API returns Not Found")
+    fun `the API returns Not Found`(){
+        assertThat(
+            "HTTP Status Code Unexpected",
+            response.statusCode,
+            equalTo(HttpStatus.SC_NOT_FOUND)
+        )
+    }
+
     @Then("^the woeid location is (.*)$")
     fun `the woeid location is`(expectedLocation: String) {
         val actualLocation = response.body().jsonPath().getString("title")
         assertThat("The location is unexpected",
             actualLocation,
             equalTo(expectedLocation))
+    }
+
+    @Then("^the response contains \"(.*)\"$")
+    fun `the response contains`(expectedErrorText: String) {
+        println("Paula")
+        println(response.body().prettyPeek())
+        val responseText = response.body().jsonPath().getString("detail")
+        assertThat("The error in unexpected",
+            responseText,
+            equalTo(expectedErrorText))
     }
 }
