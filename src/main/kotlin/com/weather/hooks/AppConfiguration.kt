@@ -26,8 +26,9 @@ class AppConfiguration {
             .sslConfig(SSLConfig.sslConfig().relaxedHTTPSValidation(HTTPS_PROTOCOL))
             .decoderConfig(DecoderConfig.decoderConfig().defaultContentCharset("UTF-8"))
             .encoderConfig(EncoderConfig.encoderConfig().defaultContentCharset("UTF-8"))
-            .httpClient(
-                HttpClientConfig.httpClientConfig()
-            )
+            .httpClient(HttpClientConfig.httpClientConfig()
+                .setParam("http.socket.timeout", 60000)
+                .setParam("http.connection.timeout", 60000)
+                .setParam("http.conn-manager.timeout", 60000L))
     }
 }
