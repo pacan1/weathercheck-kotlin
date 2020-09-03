@@ -19,8 +19,6 @@ class MoreSteps @Autowired constructor(
 ) : En {
 
     private lateinit var scenario: Scenario
-    private lateinit var response: Response
-
 
     @Before
     fun initialise(scenario: Scenario) {
