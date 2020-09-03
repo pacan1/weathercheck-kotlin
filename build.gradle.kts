@@ -18,6 +18,7 @@ plugins {
     idea
     id("se.thinkcode.cucumber-runner") version "0.0.8"
     id("com.github.spacialcircumstances.gradle-cucumber-reporting") version "0.1.21"
+    id("io.qameta.allure") version "2.8.1"
 
 }
 
@@ -37,6 +38,9 @@ val restAssuredVersion = "4.2.0"
 val kotlinVersion = "1.3.61"
 val junitVersion = "5.6.1"
 val jetBrainsKotlinVersion = "1.3.50"
+val allureVersion = "2.13.2"
+val aspectjweaverVersion = "1.9.5"
+val aspectjWeaverAgent: Configuration by configurations.creating
 
 
 dependencies {
@@ -50,6 +54,11 @@ dependencies {
     implementation("io.cucumber:cucumber-spring:$cucumberVersion")
 
     testImplementation("org.slf4j:slf4j-api:1.7.30")
+
+    implementation("io.qameta.allure:allure-cucumber5-jvm:$allureVersion")
+    implementation("io.qameta.allure:allure-rest-assured:$allureVersion")
+    implementation("io.qameta.allure:allure-java-commons:$allureVersion")
+    implementation("io.qameta.allure:allure-attachments:$allureVersion")
 
     implementation("io.rest-assured:rest-assured:${restAssuredVersion}")
     implementation("io.rest-assured:json-path:${restAssuredVersion}")
@@ -73,8 +82,12 @@ dependencies {
     implementation("org.awaitility:awaitility-kotlin:4.0.2")
 
     implementation("com.github.noconnor:junitperf:1.16.0")
+    aspectjWeaverAgent("org.aspectj:aspectjweaver:$aspectjweaverVersion")
 
 }
+
+val javaagent = "-javaagent:${aspectjWeaverAgent.singleFile}"
+
 
 cucumber {
     threads = "1"
@@ -84,8 +97,19 @@ cucumber {
     main = "io.cucumber.core.cli.Main"
     tags = "(@regression) and (not @skip) and (not @issue)"
     plugin = arrayOf(
-            "json:build/cucumber-report/data/json/report.json"
+        "json:build/cucumber-report/data/json/report.json",
+        "io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm"
     )
+}
+
+allure {
+    version = allureVersion
+    aspectjweaver = false
+    resultsDir = file(System.getProperty("allure.results.directory", "$projectDir/allure-results"))
+    reportDir = file("$projectDir/allure-report")
+    useJUnit5 {
+        version = allureVersion
+    }
 }
 
 cucumberReports {
