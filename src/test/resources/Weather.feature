@@ -22,3 +22,6 @@ Feature: Return a location and weather
       | 12345  |
       | 777767776  |
 #      | dbvdbf |
+
+  Scenario: Testing DI
+    Given demo use of spring for DI

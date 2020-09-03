@@ -1,36 +1,35 @@
 package com.weather
 
+import com.weather.hooks.AppConfiguration
 import io.cucumber.java.Before
 import io.cucumber.java.Scenario
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
 import io.cucumber.java8.En
+import io.qameta.allure.Step
 import io.restassured.RestAssured
 import io.restassured.response.Response
 import org.apache.http.HttpStatus
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
+import org.springframework.test.context.ContextConfiguration
 
+@ContextConfiguration(classes = [AppConfiguration::class])
 class WeatherCheck() : En {
 
-    private lateinit var scenario: Scenario
     private lateinit var response: Response
-
-    private val metaWeatherApi = "https://www.metaweather.com/api/"
-    private val locationApi = "location/search/?query="
-    private val latlongApi = "location/search/?lattlong="
-    private val woeidApi = "location/"
+    private lateinit var scenario: Scenario
 
     @Before
     fun initialise(scenario: Scenario) {
         this.scenario = scenario
     }
 
-    private fun getWoeidInformation(woeid: String): Response {
-
+    @Step
+    fun getWoeidInformation(woeid: String): Response {
         return RestAssured.given()
-            .baseUri(metaWeatherApi + woeidApi)
+            .baseUri(META_WEATHER_API + WOEID_API)
             .get(woeid).thenReturn()
     }
 

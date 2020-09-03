@@ -19,7 +19,6 @@ plugins {
     id("se.thinkcode.cucumber-runner") version "0.0.8"
     id("com.github.spacialcircumstances.gradle-cucumber-reporting") version "0.1.21"
     id("io.qameta.allure") version "2.8.1"
-
 }
 
 repositories {
@@ -39,8 +38,8 @@ val kotlinVersion = "1.3.61"
 val junitVersion = "5.6.1"
 val jetBrainsKotlinVersion = "1.3.50"
 val allureVersion = "2.13.2"
-val aspectjweaverVersion = "1.9.5"
-val aspectjWeaverAgent: Configuration by configurations.creating
+//val aspectjweaverVersion = "1.9.5"
+//val aspectjWeaverAgent: Configuration by configurations.creating
 
 
 dependencies {
@@ -53,7 +52,8 @@ dependencies {
     implementation("io.cucumber:cucumber-java8:$cucumberVersion")
     implementation("io.cucumber:cucumber-spring:$cucumberVersion")
 
-    testImplementation("org.slf4j:slf4j-api:1.7.30")
+    implementation("io.github.microutils:kotlin-logging:1.7.6")
+    implementation("org.slf4j:slf4j-api:1.7.30")
 
     implementation("io.qameta.allure:allure-cucumber5-jvm:$allureVersion")
     implementation("io.qameta.allure:allure-rest-assured:$allureVersion")
@@ -82,11 +82,11 @@ dependencies {
     implementation("org.awaitility:awaitility-kotlin:4.0.2")
 
     implementation("com.github.noconnor:junitperf:1.16.0")
-    aspectjWeaverAgent("org.aspectj:aspectjweaver:$aspectjweaverVersion")
+//    aspectjWeaverAgent("org.aspectj:aspectjweaver:$aspectjweaverVersion")
 
 }
 
-val javaagent = "-javaagent:${aspectjWeaverAgent.singleFile}"
+//val javaagent = "-javaagent:${aspectjWeaverAgent.singleFile}"
 
 
 cucumber {
@@ -98,13 +98,14 @@ cucumber {
     tags = "(@regression) and (not @skip) and (not @issue)"
     plugin = arrayOf(
         "json:build/cucumber-report/data/json/report.json",
-        "io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm"
-    )
+        "io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm",
+        "com.weather.infrastructure.restassured.TestListener"
+        )
 }
 
 allure {
     version = allureVersion
-    aspectjweaver = false
+//    aspectjweaver = false
     resultsDir = file(System.getProperty("allure.results.directory", "$projectDir/allure-results"))
     reportDir = file("$projectDir/allure-report")
     useJUnit5 {
