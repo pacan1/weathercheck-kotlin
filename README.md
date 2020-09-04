@@ -31,9 +31,9 @@ Report Location: file:///$projectDir/build/allure-report/index.html
 
 # UI Tests
 ## Requirements
-CodeconceptJs[https://codecept.io/basics/] 
+[CodeconceptJs](https://codecept.io/basics/)
 
-with Playwright[https://codecept.io/playwright/#writing-tests] 
+with [Playwright](https://codecept.io/playwright/#writing-tests)
 
 ## To Run UI Tests
 From the command line `npx codeceptjs run --steps`
