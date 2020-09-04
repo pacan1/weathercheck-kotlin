@@ -29,10 +29,11 @@ This task will generate a html file that can be opened in a browser
 Report Location: file:///$projectDir/build/allure-report/index.html
 
 
-#UI Tests
-Using CodeconceptJs[https://codecept.io/basics/] 
+# UI Tests
+## Requirements
+CodeconceptJs[https://codecept.io/basics/] 
 
 with Playwright[https://codecept.io/playwright/#writing-tests] 
 
-#To Run
+## To Run UI Tests
 From the command line `npx codeceptjs run --steps`
